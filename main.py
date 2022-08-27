@@ -1,8 +1,7 @@
 import os
 from tkinter import *
 from tkinter import messagebox
-
-FILEPATH = os.environ.get("FILEPATH")
+from tkinter.filedialog import asksaveasfile
 
 data = {
     "headline": "username,firstname,lastname,email,password",
@@ -87,7 +86,6 @@ def user_add():
                                                                                    f"Sind diese Daten korrekt?")
         if confirm_user:
             data["user"].append(user_temp)
-            print(data["user"])
             user_next = messagebox.askokcancel(title="Weitere Benutzer hinzufügen?", message=f"Sollen weitere "
                                                                                              f"Benutzer hinzugefügt "
                                                                                              f"werden? \n\n")
@@ -106,15 +104,17 @@ def user_add():
 
 
 def export():
-    with open(FILEPATH, "w") as file:
-        file.write(f"{data['headline']}\n")
-
-    for u in data["user"]:
-        with open(FILEPATH, "a+") as file:
-            file.write(f"{u[0]}\n")
-
-    messagebox.showinfo(title="Info", message="CSV Datei erfolgreich erstellt.")
-    exit()
+    text_temp = ""
+    file = asksaveasfile(initialfile="user.csv", defaultextension=".csv", filetypes=[("All Files","*.*")], mode="w")
+    if file is None:  # asksaveasfile return `None` if dialog closed with "cancel".
+        return
+    else:
+        text_temp = f"{str(data['headline'])}\n"
+        for u in data["user"]:
+            text_temp += f"{u[0]}\n"
+        file.write(text_temp)
+        messagebox.showinfo(title="Info", message="CSV Datei erfolgreich erstellt.")
+        exit()
 
 
 # ---------------------------- UI SETUP ------------------------------- #
