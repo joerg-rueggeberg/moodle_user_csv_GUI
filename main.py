@@ -1,6 +1,7 @@
 from tkinter import *
 from tkinter import messagebox
 from tkinter.filedialog import asksaveasfile
+import webbrowser
 
 FONT = ("Helvetica", 10, "normal")
 FONT_FOOTER = ("helvetica", 8, "bold")
@@ -14,6 +15,10 @@ data = {
 data_mail = []
 umlaute = ["Ä", "Ö", "Ü", "ä", "ö", "ü"]
 umlaute_neu = ["Ae", "Oe", "Ue", "ae", "oe", "ue"]
+
+
+def callback(url):
+    webbrowser.open_new_tab(url)
 
 
 def data_prep():
@@ -131,20 +136,21 @@ window = Tk()
 window.title("Moodle CSV Generator - JR")
 window.config(padx=20, pady=20, background="white")
 
-canvas = Canvas(height=100, bg="white", highlightthickness=0)
+canvas = Canvas(height=100, width=380, bg="white", highlightthickness=0)
 logo_img = PhotoImage(file="img/logo_moodle.PNG")
-canvas.create_image(195, 50, image=logo_img)
-canvas.grid(column=0, row=0, columnspan=2)
+canvas.create_image(190, 25, image=logo_img)
+canvas.grid(column=0, row=0, columnspan=2, sticky="w")
 
 # LABELS
 gui_mail = Label(text="Letzte E-Mail: ", background="white", pady=5, font=FONT)
 gui_password = Label(text="Passwort: ", background="white", pady=5, font=FONT)
 gui_vorname = Label(text="Vorname: ", background="white", pady=5, font=FONT)
 gui_nachname = Label(text="Nachname: ", background="white", pady=5, font=FONT)
-gui_footer = Label(text="\n2022 - Jörg Rüggeberg", background="white", pady=5, fg="#f98012", font=FONT_FOOTER)
+gui_footer_l = Label(text="\nhttps://github.com/joerg-rueggeberg", bg="white", pady=5, fg="#f98012", font=FONT_FOOTER,
+                     cursor="hand2")
+gui_footer_r = Label(text="\n2022 - Jörg Rüggeberg", background="white", pady=5, fg="#333333", font=FONT_FOOTER)
 gui_empty_01 = Label(text="", background="white", pady=5)
 gui_empty_02 = Label(text="", background="white", pady=5)
-gui_empty_03 = Label(text="", background="white", pady=5)
 
 gui_mail.grid(column=0, row=1, sticky="w")
 gui_password.grid(column=0, row=2, sticky="w")
@@ -152,8 +158,9 @@ gui_empty_01.grid(column=0, row=4)
 gui_vorname.grid(column=0, row=5, sticky="w")
 gui_nachname.grid(column=0, row=6, sticky="w")
 gui_empty_02.grid(column=0, row=8)
-# gui_empty_03.grid(column=0, row=10)
-gui_footer.grid(column=1, row=11, sticky="e")
+gui_footer_l.grid(column=0, row=11, sticky="w")
+gui_footer_l.bind("<Button-1>", lambda e: callback("https://github.com/joerg-rueggeberg"))
+gui_footer_r.grid(column=1, row=11, sticky="e")
 
 # INPUTS
 entry_mail = Entry(font=FONT)
