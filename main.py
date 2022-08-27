@@ -24,7 +24,7 @@ def data_prep():
         data_mail_temp = entry_mail.get()
         data_pass_temp = entry_password.get()
 
-        confirm_config = messagebox.askokcancel(title="Daten bestätigen", message=f"Diese Daten wurden erzeugt: \n\n"
+        confirm_config = messagebox.askokcancel(title="Daten bestätigen", message=f"Diese Daten wurden eingegeben: \n\n"
                                                                                   f"E-Mail: {data_mail_temp}\n"
                                                                                   f"Passwort: {data_pass_temp}\n\n"
                                                                                   f"Sind diese Daten korrekt?")
@@ -34,6 +34,7 @@ def data_prep():
                 data_mail.append(data_mail_temp.split("@")[0][:-3])
                 data_mail.append(int(data_mail_temp.split("@")[0][-3:]))
                 data_mail.append(data_mail_temp.split("@")[1])
+                print(data_mail)
 
                 entry_mail.config(state=DISABLED)
                 entry_password.config(state=DISABLED)
@@ -49,6 +50,8 @@ def data_prep():
                                                                             "text ### @ provider\n\n"
                                                                             "Beispiel:\n"
                                                                             "name001@mail.com")
+                data_mail = []
+                print(f"{data_mail} nach fehler")
 
     else:
         messagebox.showwarning(title="Fehler - fehlende Daten", message="Bitte E-Mail und Passwort vollständig "
