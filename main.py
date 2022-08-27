@@ -1,7 +1,9 @@
-import os
 from tkinter import *
 from tkinter import messagebox
 from tkinter.filedialog import asksaveasfile
+
+FONT = ("Helvetica", 10, "normal")
+FONT_FOOTER = ("helvetica", 8, "bold")
 
 data = {
     "headline": "username,firstname,lastname,email,password",
@@ -28,19 +30,26 @@ def data_prep():
                                                                                   f"Sind diese Daten korrekt?")
         if confirm_config:
             data["password"] = entry_password.get()
-            data_mail.append(data_mail_temp.split("@")[0][:-3])
-            data_mail.append(int(data_mail_temp.split("@")[0][-3:]))
-            data_mail.append(data_mail_temp.split("@")[1])
+            try:
+                data_mail.append(data_mail_temp.split("@")[0][:-3])
+                data_mail.append(int(data_mail_temp.split("@")[0][-3:]))
+                data_mail.append(data_mail_temp.split("@")[1])
 
-            entry_mail.config(state=DISABLED)
-            entry_password.config(state=DISABLED)
-            button_config.config(state=DISABLED)
+                entry_mail.config(state=DISABLED)
+                entry_password.config(state=DISABLED)
+                button_config.config(state=DISABLED)
 
-            entry_vorname.config(state=NORMAL)
-            entry_nachname.config(state=NORMAL)
-            button_save.config(state=NORMAL)
+                entry_vorname.config(state=NORMAL)
+                entry_nachname.config(state=NORMAL)
+                button_save.config(state=NORMAL)
 
-            entry_vorname.focus()
+                entry_vorname.focus()
+            except ValueError:
+                messagebox.showerror(title="Falsches E-Mailformat", message="Bitte nutze folgendes Format:\n"
+                                                                            "text ### @ provider\n\n"
+                                                                            "Beispiel:\n"
+                                                                            "name001@mail.com")
+
     else:
         messagebox.showwarning(title="Fehler - fehlende Daten", message="Bitte E-Mail und Passwort vollständig "
                                                                         "ausfüllen!")
@@ -104,8 +113,7 @@ def user_add():
 
 
 def export():
-    text_temp = ""
-    file = asksaveasfile(initialfile="user.csv", defaultextension=".csv", filetypes=[("All Files","*.*")], mode="w")
+    file = asksaveasfile(initialfile="user.csv", defaultextension=".csv", filetypes=[("All Files", "*.*")], mode="w")
     if file is None:  # asksaveasfile return `None` if dialog closed with "cancel".
         return
     else:
@@ -120,20 +128,22 @@ def export():
 # ---------------------------- UI SETUP ------------------------------- #
 window = Tk()
 window.title("Moodle CSV Generator - JR")
-window.config(padx=30, pady=30, background="white")
+window.config(padx=20, pady=20, background="white")
 
-# canvas = Canvas(width=100, height=100, bg="white", highlightthickness=0)
-# logo_img = PhotoImage(file="img/logo.png")
-# canvas.create_image(100, 100, image=logo_img)
-# canvas.grid(column=0, row=0)
+canvas = Canvas(height=100, bg="white", highlightthickness=0)
+logo_img = PhotoImage(file="img/logo_moodle.PNG")
+canvas.create_image(195, 50, image=logo_img)
+canvas.grid(column=0, row=0, columnspan=2)
 
 # LABELS
-gui_mail = Label(text="Letzte E-Mail: ", background="white", pady=5)
-gui_password = Label(text="Passwort: ", background="white", pady=5)
-gui_vorname = Label(text="Vorname: ", background="white", pady=5)
-gui_nachname = Label(text="Nachname: ", background="white", pady=5)
+gui_mail = Label(text="Letzte E-Mail: ", background="white", pady=5, font=FONT)
+gui_password = Label(text="Passwort: ", background="white", pady=5, font=FONT)
+gui_vorname = Label(text="Vorname: ", background="white", pady=5, font=FONT)
+gui_nachname = Label(text="Nachname: ", background="white", pady=5, font=FONT)
+gui_footer = Label(text="\n2022 - Jörg Rüggeberg", background="white", pady=5, fg="#f98012", font=FONT_FOOTER)
 gui_empty_01 = Label(text="", background="white", pady=5)
 gui_empty_02 = Label(text="", background="white", pady=5)
+gui_empty_03 = Label(text="", background="white", pady=5)
 
 gui_mail.grid(column=0, row=1, sticky="w")
 gui_password.grid(column=0, row=2, sticky="w")
@@ -141,13 +151,15 @@ gui_empty_01.grid(column=0, row=4)
 gui_vorname.grid(column=0, row=5, sticky="w")
 gui_nachname.grid(column=0, row=6, sticky="w")
 gui_empty_02.grid(column=0, row=8)
+# gui_empty_03.grid(column=0, row=10)
+gui_footer.grid(column=1, row=11, sticky="e")
 
 # INPUTS
-entry_mail = Entry()
+entry_mail = Entry(font=FONT)
 entry_mail.focus()
-entry_password = Entry()
-entry_vorname = Entry(state=DISABLED)
-entry_nachname = Entry(state=DISABLED)
+entry_password = Entry(font=FONT)
+entry_vorname = Entry(font=FONT, state=DISABLED)
+entry_nachname = Entry(font=FONT, state=DISABLED)
 
 entry_mail.grid(column=1, row=1, sticky="ew")
 entry_password.grid(column=1, row=2, sticky="ew")
@@ -155,10 +167,10 @@ entry_vorname.grid(column=1, row=5, sticky="ew")
 entry_nachname.grid(column=1, row=6, sticky="ew")
 
 # BUTTONS
-button_config = Button(text="Daten übernehmen", command=data_prep)
-button_save = Button(text="Nutzer speichern", command=user_add, state=DISABLED)
-button_import = Button(text="Nutzer importieren", state=DISABLED)
-button_export = Button(text="CSV exportieren", command=export, state=DISABLED)
+button_config = Button(text="Daten übernehmen", command=data_prep, font=FONT)
+button_save = Button(text="Nutzer speichern", command=user_add, font=FONT, state=DISABLED)
+button_import = Button(text="Nutzer importieren", font=FONT, state=DISABLED)
+button_export = Button(text="CSV exportieren", command=export, font=FONT, state=DISABLED)
 
 button_config.grid(column=1, row=3, sticky="ew")
 button_save.grid(column=1, row=7, sticky="ew")
