@@ -1,4 +1,4 @@
-# User CSV Generator for Moodle
+# User CSV Generator for Moodle - GUI Version
 User CSV Generator for Moodle
 This Script takes some user input 
 - firstname
