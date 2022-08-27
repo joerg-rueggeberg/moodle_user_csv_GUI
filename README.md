@@ -1,4 +1,7 @@
 # User CSV Generator for Moodle - GUI Version
+
+![sample](img/sample.PNG)
+
 User CSV Generator for Moodle
 This Script takes some user input 
 - firstname
