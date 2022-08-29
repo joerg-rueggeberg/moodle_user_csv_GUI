@@ -1,3 +1,4 @@
+import os, sys
 from tkinter import *
 from tkinter import messagebox
 from tkinter.filedialog import asksaveasfile
@@ -5,6 +6,7 @@ import webbrowser
 
 FONT = ("Helvetica", 10, "normal")
 FONT_FOOTER = ("helvetica", 8, "bold")
+
 
 data = {
     "headline": "username,firstname,lastname,email,password",
@@ -146,7 +148,7 @@ gui_mail = Label(text="Letzte E-Mail: ", background="white", pady=5, font=FONT)
 gui_password = Label(text="Passwort: ", background="white", pady=5, font=FONT)
 gui_vorname = Label(text="Vorname: ", background="white", pady=5, font=FONT)
 gui_nachname = Label(text="Nachname: ", background="white", pady=5, font=FONT)
-gui_footer_l = Label(text="\nhttps://github.com/joerg-rueggeberg", bg="white", pady=5, fg="#f98012", font=FONT_FOOTER,
+gui_footer_l = Label(text="\nGithub-Profil", bg="white", pady=5, fg="#f98012", font=FONT_FOOTER,
                      cursor="hand2")
 gui_footer_r = Label(text="\n2022 - Jörg Rüggeberg", background="white", pady=5, fg="#333333", font=FONT_FOOTER)
 gui_empty_01 = Label(text="", background="white", pady=5)
