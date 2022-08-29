@@ -1,3 +1,5 @@
+import os
+import sys
 from tkinter import *
 from tkinter import messagebox
 from tkinter.filedialog import asksaveasfile
@@ -5,7 +7,6 @@ import webbrowser
 
 FONT = ("Helvetica", 10, "normal")
 FONT_FOOTER = ("helvetica", 8, "bold")
-
 
 data = {
     "headline": "username,firstname,lastname,email,password",
@@ -16,6 +17,12 @@ data = {
 data_mail = []
 umlaute = ["Ä", "Ö", "Ü", "ä", "ö", "ü"]
 umlaute_neu = ["Ae", "Oe", "Ue", "ae", "oe", "ue"]
+
+
+def resource_path(relative_path):
+    """ Get absolute path to resource, works for dev and for PyInstaller """
+    base_path = getattr(sys, '_MEIPASS', os.path.dirname(os.path.abspath(__file__)))
+    return os.path.join(base_path, relative_path)
 
 
 def callback(url):
@@ -138,7 +145,8 @@ window.title("Moodle CSV Generator - JR")
 window.config(padx=20, pady=20, background="white")
 
 canvas = Canvas(height=100, width=380, bg="white", highlightthickness=0)
-logo_img = PhotoImage(file="img/logo_moodle.PNG")
+PATH = resource_path("logo.PNG")
+logo_img = PhotoImage(file=PATH)
 canvas.create_image(190, 25, image=logo_img)
 canvas.grid(column=0, row=0, columnspan=2, sticky="w")
 
